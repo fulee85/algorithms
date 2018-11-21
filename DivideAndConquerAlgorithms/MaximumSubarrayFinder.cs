@@ -2,21 +2,21 @@
 {
     public static class MaximumSubarrayFinder
     {
-        public static (int startIndex, int endIndex, int sum) FindMaximumSubarray(int[] list, int low, int high)
+        public static (int startIndex, int endIndex, int sum) FindMaximumSubarray(int[] array, int low, int high)
         {
             if (low == high)
             {
-                return (low, high, list[low]);
+                return (low, high, array[low]);
             }
 
             int mid = (low + high) / 2;
-            var (leftLow, LeftHigh, leftSum) = FindMaximumSubarray(list, low, mid);
-            var (rightLow, rightHigh, rightSum) = FindMaximumSubarray(list, mid + 1, high);
-            var (crossLow, crossHigh, crossSum) = FindMaxCrossingSubarray(list, low, mid, high);
+            var (leftLow, leftHigh, leftSum) = FindMaximumSubarray(array, low, mid);
+            var (rightLow, rightHigh, rightSum) = FindMaximumSubarray(array, mid + 1, high);
+            var (crossLow, crossHigh, crossSum) = FindMaxCrossingSubarray(array, low, mid, high);
 
-            if (leftSum > rightSum && leftSum > crossSum)
+            if (leftSum >= rightSum && leftSum >= crossSum)
             {
-                return (leftLow, LeftHigh, leftSum);
+                return (leftLow, leftHigh, leftSum);
             }
             else if (rightSum > leftSum && rightSum > crossSum)
             {
@@ -27,7 +27,7 @@
 
         private static (int maxLeft, int maxRight, int maxSum) FindMaxCrossingSubarray(int[] list, int lowIndex, int midIndex, int highIndex)
         {
-            int maxLeft = midIndex, maxRight = midIndex;
+            int maxLeft = midIndex, maxRight = midIndex + 1;
 
             var leftSum = int.MinValue;
             var sum = 0;
