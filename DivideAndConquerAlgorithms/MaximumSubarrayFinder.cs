@@ -1,7 +1,38 @@
-﻿namespace DivideAndConquerAlgorithms
+﻿using System;
+
+namespace DivideAndConquerAlgorithms
 {
     public static class MaximumSubarrayFinder
     {
+        public static (int startIndex, int endIndex, int sum) LinearFindMaximumSubarray(int[] array)
+        {
+            if (array is null || array.Length == 0) return (-1, -1, -1);
+            int maxSum = array[0];
+            int maxStart = 0, maxEnd = 0;
+            int midSum = array[0];
+            int midMaxStart = 0;
+            for (int i = 1; i < array.Length; i++)
+            {
+                if (midSum < 0)
+                {
+                    midSum = array[i];
+                    midMaxStart = i;
+                }
+                else
+                {
+                    midSum = midSum + array[i];
+                }
+
+                if (midSum > maxSum)
+                {
+                    maxSum = midSum;
+                    maxStart = midMaxStart;
+                    maxEnd = i;
+                }
+            }
+            return (maxStart, maxEnd, maxSum);
+        }
+
         public static (int startIndex, int endIndex, int sum) FindMaximumSubarray(int[] array, int low, int high)
         {
             if (low == high)
